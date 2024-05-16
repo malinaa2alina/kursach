@@ -3,13 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.Purchasing.MiniJSON;
+using Newtonsoft.Json;
+using UnityEngine.UIElements;
 
 public class sc : MonoBehaviour
 {
     bool checker = true; // чтобы первый ход был крестиком
-    int step = 0;
+    public int step = 0;
     int plusone;
     public List<List<int>> table = new List<List<int>>();
+
+    Dictionary<int, string> dict = new Dictionary<int, string>()
+    {
+    { 0, ""},
+    { 1, "X"},
+    { 2, "O"}
+    };
 
     public Text btnText1 = null;
     public Text btnText2 = null;
@@ -20,6 +30,8 @@ public class sc : MonoBehaviour
     public Text btnText7 = null;
     public Text btnText8 = null;
     public Text btnText9 = null;
+    public Canvas canvas = null;
+    public Websockets websockets = null;
 
     public Text btnResetGame = null;
     public Text btnNewGame = null;
@@ -27,6 +39,12 @@ public class sc : MonoBehaviour
 
     public Text txtPlayerX;
     public Text txtPlayerO;
+
+    public class Message
+    {
+        public string type;
+        public string messageBody;
+    }
 
     public void score()
     {
@@ -161,9 +179,35 @@ public class sc : MonoBehaviour
             txtPlayerO.text = Convert.ToString(plusone + 1);
         }
     }
+    public void SendStepToServer()
+    {
+        Message message = new Message();
+        message.type = "step";
+        message.messageBody = JsonConvert.SerializeObject(step);
+        var json = JsonConvert.SerializeObject(message);
+        websockets.websocket.SendText(json);
+    }
+
     public void SendTableToServer()
     {
+        Message message = new Message();
+        message.type = "table";
+        message.messageBody = JsonConvert.SerializeObject(table);
+        var json = JsonConvert.SerializeObject(message);
+        websockets.websocket.SendText(json);
 
+    }
+
+    public void SetTableFromServer(List<List<int>> tableFromServer)
+    {
+        GameObject panel = GameObject.Find("Panel_2");
+        table = tableFromServer;
+        for(int i = 0; i < panel.transform.childCount; i++)
+        {
+            Text cell = panel.transform.GetChild(i).GetChild(0).GetComponent<Text>();
+            cell.text = $"{dict[table[i/3][i%3]]}";
+        }
+        score();
     }
 
     public void PrintTable()
@@ -189,7 +233,7 @@ public class sc : MonoBehaviour
             }
             table.Add(temp);
         }
-
+        websockets = canvas.GetComponent<Websockets>();
     }
 
     public void MakeTable(Text cell, int x, int y)
@@ -206,11 +250,10 @@ public class sc : MonoBehaviour
         {
             table[x][y] = 2;
         }
-        step++;
     }
     public void btnText1_Click()
     {
-        if (checker)
+        if (step % 2 == 0)
         {
             btnText1.text = "X";
         }
@@ -220,14 +263,15 @@ public class sc : MonoBehaviour
         }
         score();
         MakeTable(btnText1, 0, 0);
-        PrintTable();
+        SendTableToServer();
+        step++;
+        SendStepToServer();
         checker = !checker; // Переключаем значение checker после обработки хода
-        Debug.Log(checker);
     }
 
     public void btnText2_Click()
     {
-        if (checker)
+        if (step % 2 == 0)
         {
             btnText2.text = "X";
         }
@@ -237,13 +281,15 @@ public class sc : MonoBehaviour
         }
         score();
         MakeTable(btnText2, 0, 1);
-        PrintTable();
+        SendTableToServer();
+        step++;
+        SendStepToServer();
         checker = !checker;
     }
 
     public void btnText3_Click()
     {
-        if (checker)
+        if (step % 2 == 0)
         {
             btnText3.text = "X";
         }
@@ -253,13 +299,15 @@ public class sc : MonoBehaviour
         }
         score();
         MakeTable(btnText3, 0, 2);
-        PrintTable();
+        SendTableToServer();
+        step++;
+        SendStepToServer();
         checker = !checker;
     }
 
     public void btnText4_Click()
     {
-        if (checker)
+        if (step % 2 == 0)
         {
             btnText4.text = "X";
         }
@@ -269,13 +317,15 @@ public class sc : MonoBehaviour
         }
         score();
         MakeTable(btnText4, 1, 0);
-        PrintTable();
+        SendTableToServer();
+        step++;
+        SendStepToServer();
         checker = !checker;
     }
 
     public void btnText5_Click()
     {
-        if (checker)
+        if (step % 2 == 0)
         {
             btnText5.text = "X";
         }
@@ -285,13 +335,15 @@ public class sc : MonoBehaviour
         }
         score();
         MakeTable(btnText5, 1, 1);
-        PrintTable();
+        SendTableToServer();
+        step++;
+        SendStepToServer();
         checker = !checker;
     }
 
     public void btnText6_Click()
     {
-        if (checker)
+        if (step % 2 == 0)
         {
             btnText6.text = "X";
         }
@@ -301,13 +353,15 @@ public class sc : MonoBehaviour
         }
         score();
         MakeTable(btnText6, 1, 2);
-        PrintTable();
+        SendTableToServer();
+        step++;
+        SendStepToServer();
         checker = !checker;
     }
 
     public void btnText7_Click()
     {
-        if (checker)
+        if (step % 2 == 0)
         {
             btnText7.text = "X";
         }
@@ -317,13 +371,15 @@ public class sc : MonoBehaviour
         }
         score();
         MakeTable(btnText7, 2, 0);
-        PrintTable();
+        SendTableToServer();
+        step++;
+        SendStepToServer();
         checker = !checker;
     }
 
     public void btnText8_Click()
     {
-        if (checker)
+        if (step % 2 == 0)
         {
             btnText8.text = "X";
         }
@@ -333,13 +389,15 @@ public class sc : MonoBehaviour
         }
         score();
         MakeTable(btnText8, 2, 1);
-        PrintTable();
+        SendTableToServer();
+        step++;
+        SendStepToServer();
         checker = !checker;
     }
 
     public void btnText9_Click()
     {
-        if (checker)
+        if (step % 2 == 0)
         {
             btnText9.text = "X";
         }
@@ -349,8 +407,9 @@ public class sc : MonoBehaviour
         }
         score();
         MakeTable(btnText9, 2, 2);
-
-        PrintTable();
+        SendTableToServer();
+        step++;
+        SendStepToServer();
         checker = !checker;
     }
     
@@ -375,6 +434,23 @@ public class sc : MonoBehaviour
         btnText7.color = Color.black;
         btnText8.color = Color.black;
         btnText9.color = Color.black;
+
+        table = new List<List<int>>();
+        for (int i = 0; i < 3; i++)
+        {
+            List<int> temp = new List<int>();
+            for (int j = 0; j < 3; j++)
+            {
+                temp.Add(0);
+            }
+            table.Add(temp);
+        }
+
+        SendTableToServer();
+        
+        step = 0;
+
+        SendStepToServer();
 
         checker = true; // Установите checker обратно в true, чтобы первый ход после сброса будет крестиком
     }

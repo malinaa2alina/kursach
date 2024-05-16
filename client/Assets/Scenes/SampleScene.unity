@@ -3439,6 +3439,8 @@ MonoBehaviour:
   btnText7: {fileID: 452435095}
   btnText8: {fileID: 1478008273}
   btnText9: {fileID: 1483790993}
+  canvas: {fileID: 253016134}
+  websockets: {fileID: 0}
   btnResetGame: {fileID: 1414302418}
   btnNewGame: {fileID: 1286348100}
   msgFeedback: {fileID: 1832731186}

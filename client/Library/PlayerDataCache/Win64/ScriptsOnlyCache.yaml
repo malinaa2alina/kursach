@@ -1,15 +1,17 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
-    - Client
+    - Websockets
     - sc
     Unity.2D.Tilemap.Editor.dll:
+    - UnityEditor.Tilemaps.GridBrush
     - UnityEditor.Tilemaps.GridPaintingState
     - UnityEditor.Tilemaps.GridPaletteBrushes
     - UnityEditor.Tilemaps.GridPalettes
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.SceneViewOpenTilePaletteHelper
     - UnityEditor.Tilemaps.TileDragAndDropManager
+    - UnityEditor.Tilemaps.TilemapEditorToolPreferences
     - UnityEditor.Tilemaps.TilemapPrefabStageHelper
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
@@ -30,6 +32,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
+    - UnityEngine.UI.GridLayoutGroup
     - UnityEngine.UI.Image
     - UnityEngine.UI.Text
   serializedClasses:
@@ -52,6 +55,7 @@ ScriptsOnlyBuild:
     - UnityEngine.Events.ArgumentCache
     - UnityEngine.Events.PersistentCallGroup
     - UnityEngine.Events.PersistentListenerMode
+    - UnityEngine.RectOffset
     UnityEngine.TextCoreFontEngineModule:
     - UnityEngine.TextCore.FaceInfo
     - UnityEngine.TextCore.Glyph
@@ -94,9 +98,6 @@ ScriptsOnlyBuild:
     fullTypeName: sc
     methodName: btnText8_Click
   - assembly: Assembly-CSharp
-    fullTypeName: Client
-    methodName: SendMessage
-  - assembly: Assembly-CSharp
     fullTypeName: sc
     methodName: btnText3_Click
   - assembly: Assembly-CSharp
@@ -127,35 +128,37 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1622}
+      Script: {instanceID: 26198}
     - Class: 114
-      Script: {instanceID: 2416}
+      Script: {instanceID: 26464}
     - Class: 114
-      Script: {instanceID: 2960}
+      Script: {instanceID: 26922}
     - Class: 114
-      Script: {instanceID: 3006}
+      Script: {instanceID: 27432}
     - Class: 114
-      Script: {instanceID: 3226}
+      Script: {instanceID: 27684}
     - Class: 114
-      Script: {instanceID: 3602}
+      Script: {instanceID: 28042}
     - Class: 114
-      Script: {instanceID: 4762}
+      Script: {instanceID: 29136}
     - Class: 114
-      Script: {instanceID: 4896}
+      Script: {instanceID: 29270}
     - Class: 114
-      Script: {instanceID: 5226}
+      Script: {instanceID: 29592}
     - Class: 114
-      Script: {instanceID: 6140}
+      Script: {instanceID: 30076}
     - Class: 114
-      Script: {instanceID: 6512}
+      Script: {instanceID: 30476}
     - Class: 114
-      Script: {instanceID: 6912}
+      Script: {instanceID: 30838}
     - Class: 114
-      Script: {instanceID: 7104}
+      Script: {instanceID: 31220}
     - Class: 114
-      Script: {instanceID: 7334}
+      Script: {instanceID: 31408}
     - Class: 114
-      Script: {instanceID: 7540}
+      Script: {instanceID: 31634}
+    - Class: 114
+      Script: {instanceID: 31838}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -175,16 +178,16 @@ ScriptsOnlyBuild:
   scriptHashData:
   - hash:
       serializedVersion: 2
-      Hash: a6e561615949734e9f12f9b61661f43e
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Image
-  - hash:
-      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UIElements
     className: PanelRaycaster
+  - hash:
+      serializedVersion: 2
+      Hash: a6e561615949734e9f12f9b61661f43e
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: Image
   - hash:
       serializedVersion: 2
       Hash: 04e4a8b0447477cc4e933d9e5311188f
@@ -236,6 +239,12 @@ ScriptsOnlyBuild:
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Websockets
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnMouseExitMessageListener
@@ -251,6 +260,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnTriggerEnterMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Server
   - hash:
       serializedVersion: 2
       Hash: 800c50acba124432abb4cf0d47202e06
@@ -305,12 +320,6 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
     className: EventSystem
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: UnityEngine.Monetization.dll
-    namespaceName: UnityEngine.Monetization
-    className: Placeholder
   - hash:
       serializedVersion: 2
       Hash: fe64a45214940b510a0ec79c96d43498
@@ -517,6 +526,12 @@ ScriptsOnlyBuild:
     className: BannerPlaceholder
   - hash:
       serializedVersion: 2
+      Hash: e269c45ef9d5e5e4f1cc74025a7dd3c5
+    assemblyName: UnityEngine.Purchasing.Codeless.dll
+    namespaceName: UnityEngine.Purchasing
+    className: CodelessIAPButton
+  - hash:
+      serializedVersion: 2
       Hash: 7536c3aaa3b668b80f1580147a12d30d
     assemblyName: Assembly-CSharp.dll
     namespaceName: TMPro.Examples
@@ -587,12 +602,6 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Mask
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Unity.Services.Analytics.dll
-    namespaceName: Unity.Services.Analytics
-    className: AnalyticsLifetime
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -925,7 +934,7 @@ ScriptsOnlyBuild:
     className: UnityUtil
   - hash:
       serializedVersion: 2
-      Hash: ea9cde835186c9e180e86082d1596f3f
+      Hash: 214e9bcb66008269ab59f3ed63db0273
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: sc
@@ -991,13 +1000,19 @@ ScriptsOnlyBuild:
     className: UnityOnDragMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: NetworkManager
+  - hash:
+      serializedVersion: 2
       Hash: caa533b001ae39b864ba8425019e2268
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Outline
   - hash:
       serializedVersion: 2
-      Hash: 30eb564bd7e3b65ae966828be9e631a8
+      Hash: 89a38aa16f0f40f2f830bd0a872cd1ca
     assemblyName: UnityEngine.Purchasing.Codeless.dll
     namespaceName: UnityEngine.Purchasing
     className: IAPButton
@@ -1147,7 +1162,7 @@ ScriptsOnlyBuild:
     className: SwingArmModel
   - hash:
       serializedVersion: 2
-      Hash: 06fe0c6f1328047d1063ec79291e7f8a
+      Hash: dd5d9adab7bbe3eda1c73b0706a409d7
     assemblyName: UnityEngine.Purchasing.Codeless.dll
     namespaceName: UnityEngine.Purchasing
     className: IAPListener
@@ -1268,4 +1283,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: "C:/Users/Alina/Desktop/\u043F\u0440\u043E\u0435\u043A\u04421/client/Builds/testBuild/client.exe"
+  playerPath: F:/Alina/kursach/client/Builds/client.exe

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using NativeWebSocket;
+using Newtonsoft.Json;
 
 public class Websockets : MonoBehaviour
 {
-    private WebSocket websocket;
+    public WebSocket websocket;
 
     void Start()
     {
@@ -15,7 +16,10 @@ public class Websockets : MonoBehaviour
         websocket.OnOpen += () =>
         {
             Debug.Log("Connection open! Second client has connected to the server.");
-            websocket.SendText("Привет, это второй клиент!");
+            Message message = new Message();
+            message.type = "newUser";
+            message.messageBody = "Привет, это второй клиент!";
+            websocket.SendText(JsonConvert.SerializeObject(message));
         };
 
         websocket.OnError += (e) =>
@@ -31,7 +35,21 @@ public class Websockets : MonoBehaviour
 
         websocket.OnMessage += (bytes) =>
         {
+            Message message = JsonConvert.DeserializeObject<Message>(System.Text.Encoding.UTF8.GetString(bytes));
+            if(message.type == "table")
+            {
+                GameObject table = GameObject.Find("btnGameObject");
+                sc sc = table.GetComponent<sc>();
+                sc.SetTableFromServer(JsonConvert.DeserializeObject<List<List<int>>>(message.messageBody));
+            }
+            else if (message.type == "step")
+            {
+                GameObject table = GameObject.Find("btnGameObject");
+                sc sc = table.GetComponent<sc>();
+                sc.step = JsonConvert.DeserializeObject<int>(message.messageBody);
+            }
             Debug.Log("Second client received: " + System.Text.Encoding.UTF8.GetString(bytes));
+
         };
 
         _ = websocket.Connect();
@@ -43,6 +61,7 @@ public class Websockets : MonoBehaviour
         {
             websocket.SendText("Привет, это второй клиент!");
         }
+        websocket.DispatchMessageQueue();
     }
 
     void OnDestroy()
